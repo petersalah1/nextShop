@@ -1,13 +1,32 @@
+'use client';
+import { useCategories } from '@/hooks/queries/useCategories';
 import Link from 'next/link';
 
-const categories = ['Electronics', 'Fashion', 'Beauty', 'Home', 'Sports'];
 
 function Hero() {
+  const { data: categories, isLoading, isError } = useCategories();
+  console.log(categories);
+  
+  if(isLoading) {
+    return <>
+      <h1>loading....</h1>
+    </>
+  }
+
+  if(isError) {
+    return <>
+    
+      <h1>is error</h1>
+    
+    </>
+  }
+
+
   return (
     <>
       <main className="min-h-screen bg-white">
         <section
-          className="relative min-h-[calc(100vh-80px)] overflow-hidden bg-cover bg-center"
+          className="relative min-h-screen overflow-hidden bg-cover bg-center"
           style={{
             backgroundImage: "url('/images/hero.jpg')",
           }}>
@@ -30,11 +49,12 @@ function Hero() {
                 </Link>
               </div>
 
-              <div className="mt-20 flex flex-wrap gap-2">
-                {categories.map((category) => (
-                  <Link key={category} href="/categories" className="rounded-full border  border-white/15 bg-white/10 px-4 py-2 text-sm font-medium text-white backdrop-blur transition hover:bg-white hover:text-(--primary)">
-                    {category}
-                  </Link>
+              <div className="mt-10 flex flex-wrap gap-2">
+                {categories?.map((category) => (
+                    <Link key={category._id} href={`/categories/${category._id}`} className="rounded-full border border-white/15 bg-white/10 px-4 py-2 text-sm font-medium text-white backdrop-blur transition hover:bg-white hover:text-(--primary)">
+                    {category.name}
+                  </Link> 
+
                 ))}
               </div>
             </div>
