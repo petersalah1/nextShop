@@ -32,7 +32,7 @@ function Hero() {
 
               <div className="mt-20 flex flex-wrap gap-2">
                 {categories.map((category) => (
-                  <Link key={category} href="/categories" className="rounded-full border border-white/15 bg-white/10 px-4 py-2 text-sm font-medium text-white backdrop-blur transition hover:bg-white hover:text-(--primary)">
+                  <Link key={category} href="/categories" className="rounded-full border  border-white/15 bg-white/10 px-4 py-2 text-sm font-medium text-white backdrop-blur transition hover:bg-white hover:text-(--primary)">
                     {category}
                   </Link>
                 ))}
