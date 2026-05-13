@@ -5,7 +5,6 @@ import Link from 'next/link';
 
 function Hero() {
   const { data: categories, isLoading, isError } = useCategories();
-  console.log(categories);
   
   if(isLoading) {
     return <>
@@ -60,7 +59,7 @@ function Hero() {
             </div>
 
             {/* Floating Offer Card */}
-            <div className="absolute bottom-6 left-4 right-4 rounded-3xl border border-white/15 bg-white/10 p-4 text-white shadow-2xl backdrop-blur-md sm:left-auto sm:right-8 sm:w-90 lg:bottom-10">
+            <div className="absolute bottom-6 left-4 right-4 rounded-3xl border border-white/15 bg-white/10 p-4 text-white shadow-2xl backdrop-blur-md sm:left-auto sm:right-8 sm:w-[360px] lg:bottom-10">
               <p className="text-sm font-medium text-gray-200">Limited Offer</p>
 
               <div className="mt-2 flex items-end justify-between gap-4">
