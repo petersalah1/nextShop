@@ -5,13 +5,18 @@ import Link from 'next/link';
 import { useProducts } from '@/hooks/queries/useProducts';
 import { useCategories } from '@/hooks/queries/useCategories';
 import ProductCard from '../ProductCard';
+import CategoryHero from './CategoryHero';
 
 function CategoryProducts({ categoryId }) {
   const [page, setPage] = useState(1);
 
   const { data: categories = [] } = useCategories();
 
-  const { data: productsResponse, isLoading, isError } = useProducts({
+  const {
+    data: productsResponse,
+    isLoading,
+    isError,
+  } = useProducts({
     page,
     limit: 20,
     'category[in]': categoryId,
@@ -21,9 +26,7 @@ function CategoryProducts({ categoryId }) {
     setPage(1);
   }, [categoryId]);
 
-  const selectedCategory = categories.find(
-    (category) => category._id === categoryId
-  );
+  const selectedCategory = categories.find((category) => category._id === categoryId);
 
   const products = productsResponse?.data || [];
   const results = productsResponse?.results || 0;
@@ -36,9 +39,7 @@ function CategoryProducts({ categoryId }) {
     return (
       <section className="bg-white py-16">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <h1 className="text-2xl font-bold text-gray-950">
-            Loading category products...
-          </h1>
+          <h1 className="text-2xl font-bold text-gray-950">Loading category products...</h1>
         </div>
       </section>
     );
@@ -48,9 +49,7 @@ function CategoryProducts({ categoryId }) {
     return (
       <section className="bg-white py-16">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <h1 className="text-2xl font-bold text-red-500">
-            Something went wrong.
-          </h1>
+          <h1 className="text-2xl font-bold text-red-500">Something went wrong.</h1>
         </div>
       </section>
     );
@@ -59,25 +58,7 @@ function CategoryProducts({ categoryId }) {
   return (
     <section className="bg-white py-16">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="mb-8 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
-          <div>
-            <span className="text-sm font-semibold text-(--primary)">
-              Category
-            </span>
-
-            <h1 className="mt-2 text-3xl font-bold text-gray-950">
-              {selectedCategory?.name || 'Category Products'}
-            </h1>
-
-            <p className="mt-2 text-sm text-gray-500">
-              Browse products from this category.
-            </p>
-          </div>
-
-          <p className="text-sm font-medium text-gray-500">
-            {results} products found
-          </p>
-        </div>
+        <CategoryHero category={selectedCategory} results={results} />
 
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           {products.map((product) => (
@@ -85,18 +66,13 @@ function CategoryProducts({ categoryId }) {
           ))}
         </div>
 
-        {products.length === 0 && (
-          <p className="mt-10 text-center text-gray-500">
-            No products found in this category.
-          </p>
-        )}
+        {products.length === 0 && <p className="mt-10 text-center text-gray-500">No products found in this category.</p>}
 
         <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
           <button
             onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
             disabled={currentPage === 1}
-            className="rounded-full border border-gray-200 px-5 py-2 text-sm font-semibold text-gray-700 transition hover:border-(--primary) hover:text-(--primary) disabled:cursor-not-allowed disabled:opacity-40"
-          >
+            className="rounded-full border border-gray-200 px-5 py-2 text-sm font-semibold text-gray-700 transition hover:border-(--primary) hover:text-(--primary) disabled:cursor-not-allowed disabled:opacity-40">
             Previous
           </button>
 
@@ -105,12 +81,9 @@ function CategoryProducts({ categoryId }) {
           </span>
 
           <button
-            onClick={() =>
-              setPage((prev) => Math.min(prev + 1, numberOfPages))
-            }
+            onClick={() => setPage((prev) => Math.min(prev + 1, numberOfPages))}
             disabled={currentPage === numberOfPages}
-            className="rounded-full border border-gray-200 px-5 py-2 text-sm font-semibold text-gray-700 transition hover:border-(--primary) hover:text-(--primary) disabled:cursor-not-allowed disabled:opacity-40"
-          >
+            className="rounded-full border border-gray-200 px-5 py-2 text-sm font-semibold text-gray-700 transition hover:border-(--primary) hover:text-(--primary) disabled:cursor-not-allowed disabled:opacity-40">
             Next
           </button>
         </div>

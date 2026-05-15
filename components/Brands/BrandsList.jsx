@@ -2,6 +2,7 @@
 
 import { useBrands } from '@/hooks/queries/useBrands';
 import Link from 'next/link';
+import PageHeader from '../shared/PageHeader';
 
 function BrandsList() {
   const { data: brandsResponse, isError, isLoading } = useBrands();
@@ -33,31 +34,13 @@ function BrandsList() {
   return (
     <section className="bg-white py-16">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="mb-8 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
-          <div>
-            <span className="text-sm font-semibold text-(--primary)">Our Brands</span>
-            <h1 className="mt-2 text-3xl font-bold text-gray-950">All Brands</h1>
-            <p className="mt-2 text-sm text-gray-500">
-              Browse our available brands and explore their products.
-            </p>
-          </div>
-
-          <p className="text-sm font-medium text-gray-500">{results} brands found</p>
-        </div>
+        <PageHeader label="Popular Brands" title="Brands" description="Discover products from our available brands." />
 
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           {allBrands.map((brand) => (
-            <Link
-              href={`/brands/${brand._id}`}
-              className="group overflow-hidden rounded-3xl border border-gray-100 bg-white p-5 text-center shadow-sm transition hover:-translate-y-1 hover:shadow-xl"
-              key={brand._id}
-            >
+            <Link href={`/brands/${brand._id}`} className="group overflow-hidden rounded-3xl border border-gray-100 bg-white p-5 text-center shadow-sm transition hover:-translate-y-1 hover:shadow-xl" key={brand._id}>
               <div className="flex aspect-square items-center justify-center overflow-hidden rounded-2xl bg-gray-50 p-6">
-                <img
-                  src={brand.image}
-                  alt={brand.name}
-                  className="max-h-full max-w-full object-contain transition duration-500 group-hover:scale-110"
-                />
+                <img src={brand.image} alt={brand.name} className="max-h-full max-w-full object-contain transition duration-500 group-hover:scale-110" />
               </div>
 
               <h2 className="mt-4 text-sm font-semibold text-gray-950">{brand.name}</h2>
@@ -65,9 +48,7 @@ function BrandsList() {
           ))}
         </div>
 
-        {allBrands.length === 0 && (
-          <p className="mt-10 text-center text-gray-500">No brands found.</p>
-        )}
+        {allBrands.length === 0 && <p className="mt-10 text-center text-gray-500">No brands found.</p>}
       </div>
     </section>
   );

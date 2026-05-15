@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useProducts } from '@/hooks/queries/useProducts';
 import Link from 'next/link';
 import ProductCard from '../ProductCard';
+import PageHeader from '../shared/PageHeader';
 
 function ProductsList() {
   const [page, setPage] = useState(1);
@@ -23,6 +24,10 @@ function ProductsList() {
 
   const currentPage = metadata?.currentPage || 1;
   const numberOfPages = metadata?.numberOfPages || 1;
+
+  const [searchInput, setSearchInput] = useState('');
+  const [searchTerm, setSearchTerm] = useState('');
+  const [sort, setSort] = useState('');
 
   if (isLoading) {
     return (
@@ -50,18 +55,7 @@ function ProductsList() {
     <section className="bg-white py-16">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Page Header */}
-        <div className="mb-8 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
-          <div>
-            <span className="text-sm font-semibold text-(--primary)">Our Store</span>
-
-            <h1 className="mt-2 text-3xl font-bold text-gray-950">All Products</h1>
-
-            <p className="mt-2 text-sm text-gray-500">Browse all available products and discover the best offers.</p>
-          </div>
-
-          <p className="text-sm font-medium text-gray-500">{results} products found</p>
-        </div>
-
+        <PageHeader label="Our Store" title="All Products" description="Browse all available products and discover the best offers." rightContent={<p className="text-sm font-medium text-gray-500">{results} products found</p>} />
         {/* Products Grid */}
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           {allProducts.map((product) => (

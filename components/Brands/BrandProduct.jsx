@@ -1,10 +1,10 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import Link from 'next/link';
 import { useBrand } from '@/hooks/queries/useBrand';
 import { useProducts } from '@/hooks/queries/useProducts';
 import ProductCard from '../ProductCard';
+import BrandHeader from './BrandHeader';
 
 function BrandProduct({ brandId }) {
   const [page, setPage] = useState(1);
@@ -55,17 +55,7 @@ function BrandProduct({ brandId }) {
   return (
     <section className="bg-white py-16">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="mb-8 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
-          <div>
-            <span className="text-sm font-semibold text-(--primary)">Brand</span>
-
-            <h1 className="mt-2 text-3xl font-bold text-gray-950">{brand?.name || 'Brand Products'}</h1>
-
-            <p className="mt-2 text-sm text-gray-500">Browse products from this brand.</p>
-          </div>
-
-          <p className="text-sm font-medium text-gray-500">{results} products found</p>
-        </div>
+        <BrandHeader brand={brand} results={results} />
 
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           {products.map((product) => (
