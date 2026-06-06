@@ -1,13 +1,76 @@
 'use client';
 
 import Link from 'next/link';
-import { useCart } from '@/contexts/CartContext';
+import { useRouter } from 'next/navigation';
+import { useAuth } from '@/contexts/AuthContext';
+import { useAddToCart } from '@/hooks/mutations/useAddToCart';
+import { useWishlistQuery } from '@/hooks/queries/useWishlist';
+import { useAddToWishlist } from '@/hooks/mutations/useAddToWishlist';
+import { useRemoveFromWishlist } from '@/hooks/mutations/useRemoveFromWishlist';
 
 function ProductCard({ product }) {
-  const { addToCart } = useCart();
+  const router = useRouter();
+  const { isAuthenticated } = useAuth();
+
+  const {
+    mutate: addToCart,
+    isPending: isAddingToCartPending,
+    isLoading: isAddingToCartLoading,
+  } = useAddToCart();
+
+  const { data: wishlistResponse } = useWishlistQuery();
+
+  const {
+    mutate: addToWishlist,
+    isPending: isAddingToWishlistPending,
+    isLoading: isAddingToWishlistLoading,
+  } = useAddToWishlist();
+
+  const {
+    mutate: removeFromWishlist,
+    isPending: isRemovingFromWishlistPending,
+    isLoading: isRemovingFromWishlistLoading,
+  } = useRemoveFromWishlist();
+
+  const isAddingToCart = isAddingToCartPending || isAddingToCartLoading;
+
+  const isWishlistActionLoading =
+    isAddingToWishlistPending ||
+    isAddingToWishlistLoading ||
+    isRemovingFromWishlistPending ||
+    isRemovingFromWishlistLoading;
+
+  const wishlistProducts = wishlistResponse?.data || [];
+
+  const isWishlisted = wishlistProducts.some(
+    (wishlistProduct) => wishlistProduct._id === product._id
+  );
 
   const hasDiscount =
     product.priceAfterDiscount && product.priceAfterDiscount < product.price;
+
+  function handleAddToCart() {
+    if (!isAuthenticated) {
+      router.push('/login');
+      return;
+    }
+
+    addToCart(product._id);
+  }
+
+  function handleWishlistClick() {
+    if (!isAuthenticated) {
+      router.push('/login');
+      return;
+    }
+
+    if (isWishlisted) {
+      removeFromWishlist(product._id);
+      return;
+    }
+
+    addToWishlist(product._id);
+  }
 
   return (
     <div className="group overflow-hidden rounded-3xl border border-gray-100 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl">
@@ -20,13 +83,18 @@ function ProductCard({ product }) {
           />
         </Link>
 
-        {/* TODO: Connect to wishlist context later */}
         <button
           type="button"
-          className="absolute right-3 top-3 cursor-pointer flex h-9 w-9 items-center justify-center rounded-full bg-white/90 text-gray-700 shadow-sm backdrop-blur transition hover:bg-(--primary) hover:text-white"
-          aria-label="Add to wishlist"
+          onClick={handleWishlistClick}
+          disabled={isWishlistActionLoading}
+          className={`absolute right-3 top-3 flex h-9 w-9 cursor-pointer items-center justify-center rounded-full shadow-sm backdrop-blur transition disabled:cursor-not-allowed disabled:opacity-60 ${
+            isWishlisted
+              ? 'bg-(--primary) text-white'
+              : 'bg-white/90 text-gray-700 hover:bg-(--primary) hover:text-white'
+          }`}
+          aria-label={isWishlisted ? 'Remove from wishlist' : 'Add to wishlist'}
         >
-          <i className="fa-regular fa-heart"></i>
+          <i className={isWishlisted ? 'fa-solid fa-heart' : 'fa-regular fa-heart'}></i>
         </button>
       </div>
 
@@ -67,10 +135,11 @@ function ProductCard({ product }) {
 
         <button
           type="button"
-          onClick={() => addToCart(product)}
-          className="mt-4 w-full rounded-full cursor-pointer bg-(--primary) px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-gray-950"
+          onClick={handleAddToCart}
+          disabled={isAddingToCart}
+          className="mt-4 w-full cursor-pointer rounded-full bg-(--primary) px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-gray-950 disabled:cursor-not-allowed disabled:opacity-60"
         >
-          Add to Cart
+          {isAddingToCart ? 'Adding...' : 'Add to Cart'}
         </button>
       </div>
     </div>
