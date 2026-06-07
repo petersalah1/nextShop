@@ -8,27 +8,15 @@ function Footer() {
         {/* Logo & About */}
         <div className="col-span-1 md:col-span-2">
           <Link href="/" className="mb-4 flex items-center gap-2">
-            <img
-              src="/logo.png"
-              alt="NextShop Logo"
-              className="h-10 rounded-lg bg-white px-2"
-            />
+            <img src="/logo.png" alt="NextShop Logo" className="h-10 rounded-lg bg-white px-2" />
           </Link>
 
-          <p className="mb-4 leading-7 text-gray-400">
-            NextShop is your one-stop destination for quality products. From
-            fashion to electronics, we bring you the best brands at competitive
-            prices.
-          </p>
+          <p className="mb-4 leading-7 text-gray-400">NextShop is your one-stop destination for quality products. From fashion to electronics, we bring you the best brands at competitive prices.</p>
 
           <div className="space-y-2 text-gray-400">
             <p className="flex items-center gap-2">
               <i className="fa-brands fa-whatsapp w-5 text-lg text-(--primary)"></i>
-              <a
-                href="https://wa.me/201204995735"
-                target="_blank"
-                rel="noreferrer"
-              >
+              <a href="https://wa.me/201204995735" target="_blank" rel="noreferrer">
                 01204995735
               </a>
             </p>
@@ -45,39 +33,19 @@ function Footer() {
           </div>
 
           <div className="mt-4 flex gap-3">
-            <a
-              href="https://github.com/petersalah1"
-              target="_blank"
-              rel="noreferrer"
-              className="text-gray-400 transition hover:text-(--primary)"
-            >
+            <a href="https://github.com/petersalah1" target="_blank" rel="noreferrer" className="text-gray-400 transition hover:text-(--primary)">
               <i className="fab fa-github"></i>
             </a>
 
-            <a
-              href="https://www.linkedin.com/in/petersalah/"
-              target="_blank"
-              rel="noreferrer"
-              className="text-gray-400 transition hover:text-(--primary)"
-            >
+            <a href="https://www.linkedin.com/in/petersalah/" target="_blank" rel="noreferrer" className="text-gray-400 transition hover:text-(--primary)">
               <i className="fab fa-linkedin"></i>
             </a>
 
-            <a
-              href="https://www.facebook.com/peter.salah.311/"
-              target="_blank"
-              rel="noreferrer"
-              className="text-gray-400 transition hover:text-(--primary)"
-            >
+            <a href="https://www.facebook.com/peter.salah.311/" target="_blank" rel="noreferrer" className="text-gray-400 transition hover:text-(--primary)">
               <i className="fab fa-facebook-f"></i>
             </a>
 
-            <a
-              href="https://www.instagram.com/petersalah.2004/"
-              target="_blank"
-              rel="noreferrer"
-              className="text-gray-400 transition hover:text-(--primary)"
-            >
+            <a href="https://www.instagram.com/petersalah.2004/" target="_blank" rel="noreferrer" className="text-gray-400 transition hover:text-(--primary)">
               <i className="fab fa-instagram"></i>
             </a>
           </div>
@@ -183,7 +151,13 @@ function Footer() {
       </div>
 
       <div className="mx-auto mt-8 flex max-w-7xl flex-col justify-between border-t border-gray-700 px-4 pt-4 text-sm text-gray-400 sm:flex-row">
-        <p>© 2026 NextShop. All rights reserved.</p>
+        <p>
+          © 2026 NextShop. Developed by{' '}
+          <a href="https://petersalah.vercel.app/" target="_blank" rel="noreferrer" className="font-semibold text-(--primary) hover:underline">
+            Peter Salah
+          </a>
+          . All rights reserved.
+        </p>
       </div>
     </footer>
   );
