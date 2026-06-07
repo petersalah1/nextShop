@@ -153,7 +153,7 @@ function Footer() {
       <div className="mx-auto mt-8 flex max-w-7xl flex-col justify-between border-t border-gray-700 px-4 pt-4 text-sm text-gray-400 sm:flex-row">
         <p>
           © 2026 NextShop. Developed by{' '}
-          <a href="https://petersalah.vercel.app/" target="_blank" rel="noreferrer" className="font-semibold text-(--primary) hover:underline">
+          <a href="https://petersalah.vercel.app/" target="_blank"  rel="noreferrer" className="font-semibold text-(--primary) hover:underline">
             Peter Salah
           </a>
           . All rights reserved.
