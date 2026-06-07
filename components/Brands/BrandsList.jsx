@@ -36,7 +36,7 @@ function BrandsList() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <PageHeader label="Popular Brands" title="Brands" description="Discover products from our available brands." />
 
-        <div className="grid grid-cols-2 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+        <div className="grid grid-cols-2 items-stretch gap-3 sm:gap-4 md:grid-cols-3 lg:grid-cols-4">
           {allBrands.map((brand) => (
             <Link href={`/brands/${brand._id}`} className="group overflow-hidden rounded-3xl border border-gray-100 bg-white p-5 text-center shadow-sm transition hover:-translate-y-1 hover:shadow-xl" key={brand._id}>
               <div className="flex aspect-square items-center justify-center overflow-hidden rounded-2xl bg-gray-50 p-6">

@@ -1,17 +1,19 @@
 'use client';
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import toast from 'react-hot-toast';
+import { useRouter } from 'next/navigation';
 import { useLogin } from '@/hooks/mutations/useLogin';
 import { useAuth } from '@/contexts/AuthContext';
 
 function LoginPage() {
   const router = useRouter();
-  const { login } = useAuth();
+
+  const { login, isAuthenticated, isAuthReady } = useAuth();
 
   const {
-    mutate,
+    mutate: loginMutation,
     isPending,
     isLoading,
     error,
@@ -23,6 +25,12 @@ function LoginPage() {
     email: '',
     password: '',
   });
+
+  useEffect(() => {
+    if (isAuthReady && isAuthenticated) {
+      router.push('/products');
+    }
+  }, [isAuthReady, isAuthenticated, router]);
 
   function handleChange(event) {
     const { name, value } = event.target;
@@ -36,14 +44,23 @@ function LoginPage() {
   function handleSubmit(event) {
     event.preventDefault();
 
-    mutate(formData, {
+    loginMutation(formData, {
       onSuccess: (data) => {
         login({
           token: data.token,
           user: data.user,
         });
 
+        toast.success('Logged in successfully');
         router.push('/products');
+      },
+
+      onError: (error) => {
+        const message =
+          error?.response?.data?.message ||
+          'Login failed. Please try again.';
+
+        toast.error(message);
       },
     });
   }
@@ -56,6 +73,7 @@ function LoginPage() {
       <section className="mx-auto max-w-md rounded-3xl border border-gray-100 bg-white p-8 shadow-sm">
         <div className="mb-8 text-center">
           <h1 className="text-3xl font-bold text-gray-950">Login</h1>
+
           <p className="mt-3 text-sm text-gray-500">
             Welcome back. Login to continue shopping.
           </p>
@@ -117,17 +135,12 @@ function LoginPage() {
           </button>
         </form>
 
-        <div className="mt-6 flex items-center justify-between text-sm">
-          <Link
-            href="/forgot-password"
-            className="font-medium text-(--primary) hover:underline"
-          >
-            Forgot password?
-          </Link>
+        <div className="mt-6 text-center text-sm">
+          <span className="text-gray-500">Don&apos;t have an account? </span>
 
           <Link
             href="/register"
-            className="font-medium text-(--primary) hover:underline"
+            className="font-semibold text-(--primary) hover:underline"
           >
             Create account
           </Link>

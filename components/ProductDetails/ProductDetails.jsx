@@ -3,24 +3,46 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import toast from 'react-hot-toast';
 import { useProductDetails } from '@/hooks/queries/useProductDetails';
 import { useAuth } from '@/contexts/AuthContext';
 import { useAddToCart } from '@/hooks/mutations/useAddToCart';
+import { useWishlistQuery } from '@/hooks/queries/useWishlist';
+import { useAddToWishlist } from '@/hooks/mutations/useAddToWishlist';
+import { useRemoveFromWishlist } from '@/hooks/mutations/useRemoveFromWishlist';
 
 function ProductDetails({ productId }) {
   const router = useRouter();
-
   const { isAuthenticated } = useAuth();
 
   const { data: product, isLoading, isError } = useProductDetails(productId);
 
   const {
     mutate: addToCart,
-    isPending,
+    isPending: isAddingPending,
     isLoading: isAddingLoading,
   } = useAddToCart();
 
-  const isAdding = isPending || isAddingLoading;
+  const { data: wishlistResponse } = useWishlistQuery();
+
+  const {
+    mutate: addToWishlist,
+    isPending: isAddingToWishlistPending,
+    isLoading: isAddingToWishlistLoading,
+  } = useAddToWishlist();
+
+  const {
+    mutate: removeFromWishlist,
+    isPending: isRemovingFromWishlistPending,
+    isLoading: isRemovingFromWishlistLoading,
+  } = useRemoveFromWishlist();
+
+  const isAdding = isAddingPending || isAddingLoading;
+  const isWishlistActionLoading =
+    isAddingToWishlistPending ||
+    isAddingToWishlistLoading ||
+    isRemovingFromWishlistPending ||
+    isRemovingFromWishlistLoading;
 
   const [selectedImage, setSelectedImage] = useState('');
 
@@ -30,13 +52,37 @@ function ProductDetails({ productId }) {
     }
   }, [product?.imageCover]);
 
+  const wishlistProducts = wishlistResponse?.data || [];
+  const isWishlisted = wishlistProducts.some(
+    (wishlistProduct) => wishlistProduct._id === product?._id
+  );
+
+  function redirectToLogin() {
+    toast.error('Please login first.');
+    router.push('/login');
+  }
+
   function handleAddToCart() {
     if (!isAuthenticated) {
-      router.push('/login');
+      redirectToLogin();
       return;
     }
 
     addToCart(product._id);
+  }
+
+  function handleWishlistClick() {
+    if (!isAuthenticated) {
+      redirectToLogin();
+      return;
+    }
+
+    if (isWishlisted) {
+      removeFromWishlist(product._id);
+      return;
+    }
+
+    addToWishlist(product._id);
   }
 
   if (isLoading) {
@@ -49,7 +95,7 @@ function ProductDetails({ productId }) {
     );
   }
 
-  if (isError) {
+  if (isError || !product) {
     return (
       <section className="bg-white py-16">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -65,7 +111,6 @@ function ProductDetails({ productId }) {
     <section className="bg-white py-16">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid gap-10 lg:grid-cols-2 lg:items-start">
-          {/* Product Images */}
           <div>
             <div className="overflow-hidden rounded-[32px] bg-gray-100">
               <img
@@ -99,7 +144,6 @@ function ProductDetails({ productId }) {
             )}
           </div>
 
-          {/* Product Info */}
           <div>
             <div className="mb-5 flex flex-wrap gap-2">
               {product.category?.name && (
@@ -134,9 +178,7 @@ function ProductDetails({ productId }) {
                 {product.ratingsQuantity} reviews
               </span>
 
-              <span className="text-sm text-gray-500">
-                {product.sold} sold
-              </span>
+              <span className="text-sm text-gray-500">{product.sold} sold</span>
             </div>
 
             <div className="mt-6">
@@ -175,9 +217,15 @@ function ProductDetails({ productId }) {
 
               <button
                 type="button"
-                className="rounded-full border border-gray-200 px-8 py-3 text-sm font-semibold text-gray-700 transition hover:border-(--primary) hover:text-(--primary)"
+                onClick={handleWishlistClick}
+                disabled={isWishlistActionLoading}
+                className={`rounded-full border px-8 py-3 text-sm font-semibold transition disabled:cursor-not-allowed disabled:opacity-60 ${
+                  isWishlisted
+                    ? 'border-(--primary) bg-(--primary) text-white'
+                    : 'border-gray-200 text-gray-700 hover:border-(--primary) hover:text-(--primary)'
+                }`}
               >
-                Add to Wishlist
+                {isWishlisted ? 'Remove from Wishlist' : 'Add to Wishlist'}
               </button>
             </div>
 

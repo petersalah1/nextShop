@@ -15,11 +15,7 @@ function ProductsList() {
     ...(sort && { sort }),
   };
 
-  const {
-    data: productsResponse,
-    isError,
-    isLoading,
-  } = useProducts(productsParams);
+  const { data: productsResponse, isError, isLoading } = useProducts(productsParams);
 
   const allProducts = productsResponse?.data || [];
   const results = productsResponse?.results || 0;
@@ -58,24 +54,11 @@ function ProductsList() {
   return (
     <section className="bg-white py-16">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <PageHeader
-          label="Our Store"
-          title="All Products"
-          description="Browse all available products and discover the best offers."
-          rightContent={
-            <p className="text-sm font-medium text-gray-500">
-              {results} products found
-            </p>
-          }
-        />
+        <PageHeader label="Our Store" title="All Products" description="Browse all available products and discover the best offers." rightContent={<p className="text-sm font-medium text-gray-500">{results} products found</p>} />
 
         {/* Sort */}
         <div className="mb-8 flex justify-end">
-          <select
-            value={sort}
-            onChange={handleSortChange}
-            className="w-full rounded-full border border-gray-200 bg-white px-5 py-3 text-sm font-semibold text-gray-700 outline-none transition focus:border-(--primary) sm:w-64"
-          >
+          <select value={sort} onChange={handleSortChange} className="w-full rounded-full border border-gray-200 bg-white px-5 py-3 text-sm font-semibold text-gray-700 outline-none transition focus:border-(--primary) sm:w-64">
             <option value="">Default sorting</option>
             <option value="price">Price: Low to High</option>
             <option value="-price">Price: High to Low</option>
@@ -84,18 +67,15 @@ function ProductsList() {
         </div>
 
         {/* Products Grid */}
-        <div className="grid grid-cols-2 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+        <div className="grid grid-cols-2 items-stretch gap-3 sm:gap-4 md:grid-cols-3 lg:grid-cols-4">
+          {' '}
           {allProducts.map((product) => (
             <ProductCard key={product._id} product={product} />
           ))}
         </div>
 
         {/* Empty State */}
-        {allProducts.length === 0 && (
-          <p className="mt-10 text-center text-gray-500">
-            No products found.
-          </p>
-        )}
+        {allProducts.length === 0 && <p className="mt-10 text-center text-gray-500">No products found.</p>}
 
         {/* Pagination */}
         {numberOfPages > 1 && (
@@ -103,8 +83,7 @@ function ProductsList() {
             <button
               onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
               disabled={currentPage === 1}
-              className="rounded-full border border-gray-200 px-5 py-2 text-sm font-semibold text-gray-700 transition hover:border-(--primary) hover:text-(--primary) disabled:cursor-not-allowed disabled:opacity-40"
-            >
+              className="rounded-full border border-gray-200 px-5 py-2 text-sm font-semibold text-gray-700 transition hover:border-(--primary) hover:text-(--primary) disabled:cursor-not-allowed disabled:opacity-40">
               Previous
             </button>
 
@@ -113,12 +92,9 @@ function ProductsList() {
             </span>
 
             <button
-              onClick={() =>
-                setPage((prev) => Math.min(prev + 1, numberOfPages))
-              }
+              onClick={() => setPage((prev) => Math.min(prev + 1, numberOfPages))}
               disabled={currentPage === numberOfPages}
-              className="rounded-full border border-gray-200 px-5 py-2 text-sm font-semibold text-gray-700 transition hover:border-(--primary) hover:text-(--primary) disabled:cursor-not-allowed disabled:opacity-40"
-            >
+              className="rounded-full border border-gray-200 px-5 py-2 text-sm font-semibold text-gray-700 transition hover:border-(--primary) hover:text-(--primary) disabled:cursor-not-allowed disabled:opacity-40">
               Next
             </button>
           </div>

@@ -57,7 +57,8 @@ function BrandProduct({ brandId }) {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <BrandHeader brand={brand} results={results} />
 
-        <div className="grid grid-cols-2 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+        <div className="grid grid-cols-2 items-stretch gap-3 sm:gap-4 md:grid-cols-3 lg:grid-cols-4">
+          {' '}
           {products.map((product) => (
             <ProductCard key={product._id} product={product} />
           ))}

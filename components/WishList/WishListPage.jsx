@@ -10,11 +10,7 @@ function WishListPage() {
   const router = useRouter();
   const { isAuthenticated, isAuthReady } = useAuth();
 
-  const {
-    data: wishlistResponse,
-    isLoading,
-    isError,
-  } = useWishlistQuery();
+  const { data: wishlistResponse, isLoading, isError } = useWishlistQuery();
 
   const wishlistProducts = wishlistResponse?.data || [];
   const wishlistCount = wishlistProducts.length;
@@ -33,19 +29,11 @@ function WishListPage() {
     return (
       <section className="bg-white py-16">
         <div className="mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-8">
-          <h1 className="text-3xl font-bold text-gray-950">
-            Login required
-          </h1>
+          <h1 className="text-3xl font-bold text-gray-950">Login required</h1>
 
-          <p className="mt-3 text-gray-500">
-            Please login to view your wishlist.
-          </p>
+          <p className="mt-3 text-gray-500">Please login to view your wishlist.</p>
 
-          <button
-            type="button"
-            onClick={() => router.push('/login')}
-            className="mt-8 inline-flex rounded-full bg-(--primary) px-7 py-3 text-sm font-semibold text-white transition hover:bg-gray-950"
-          >
+          <button type="button" onClick={() => router.push('/login')} className="mt-8 inline-flex rounded-full bg-(--primary) px-7 py-3 text-sm font-semibold text-white transition hover:bg-gray-950">
             Go to Login
           </button>
         </div>
@@ -67,13 +55,9 @@ function WishListPage() {
     return (
       <section className="bg-white py-16">
         <div className="mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-8">
-          <h1 className="text-3xl font-bold text-gray-950">
-            Something went wrong
-          </h1>
+          <h1 className="text-3xl font-bold text-gray-950">Something went wrong</h1>
 
-          <p className="mt-3 text-red-500">
-            We could not load your wishlist.
-          </p>
+          <p className="mt-3 text-red-500">We could not load your wishlist.</p>
         </div>
       </section>
     );
@@ -83,18 +67,11 @@ function WishListPage() {
     return (
       <section className="bg-white py-16">
         <div className="mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-8">
-          <h1 className="text-3xl font-bold text-gray-950">
-            Your wishlist is empty
-          </h1>
+          <h1 className="text-3xl font-bold text-gray-950">Your wishlist is empty</h1>
 
-          <p className="mt-3 text-gray-500">
-            Save products you like and find them here later.
-          </p>
+          <p className="mt-3 text-gray-500">Save products you like and find them here later.</p>
 
-          <Link
-            href="/products"
-            className="mt-8 inline-flex rounded-full bg-(--primary) px-7 py-3 text-sm font-semibold text-white transition hover:bg-gray-950"
-          >
+          <Link href="/products" className="mt-8 inline-flex rounded-full bg-(--primary) px-7 py-3 text-sm font-semibold text-white transition hover:bg-gray-950">
             Browse Products
           </Link>
         </div>
@@ -107,28 +84,20 @@ function WishListPage() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mb-8 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <span className="text-sm font-semibold text-(--primary)">
-              Saved Products
-            </span>
+            <span className="text-sm font-semibold text-(--primary)">Saved Products</span>
 
-            <h1 className="mt-2 text-3xl font-bold text-gray-950">
-              Your Wishlist
-            </h1>
+            <h1 className="mt-2 text-3xl font-bold text-gray-950">Your Wishlist</h1>
 
-            <p className="mt-2 text-sm text-gray-500">
-              You have {wishlistCount} products in your wishlist.
-            </p>
+            <p className="mt-2 text-sm text-gray-500">You have {wishlistCount} products in your wishlist.</p>
           </div>
 
-          <Link
-            href="/products"
-            className="w-fit rounded-full border border-gray-200 bg-white px-6 py-3 text-sm font-semibold text-gray-700 transition hover:border-(--primary) hover:text-(--primary)"
-          >
+          <Link href="/products" className="w-fit rounded-full border border-gray-200 bg-white px-6 py-3 text-sm font-semibold text-gray-700 transition hover:border-(--primary) hover:text-(--primary)">
             Continue Shopping
           </Link>
         </div>
 
-        <div className="grid grid-cols-2 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+        <div className="grid grid-cols-2 items-stretch gap-3 sm:gap-4 md:grid-cols-3 lg:grid-cols-4">
+          {' '}
           {wishlistProducts.map((product) => (
             <ProductCard key={product._id} product={product} />
           ))}

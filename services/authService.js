@@ -5,3 +5,9 @@ export async function loginUser(credentials) {
 
   return response.data;
 }
+
+export async function registerUser(userData) {
+  const response = await api.post('/api/v1/auth/signup', userData);
+
+  return response.data;
+}

@@ -1,3 +1,7 @@
-import OrdersPage from '../orders/page';
+import OrdersPage from '@/components/Orders/OrdersPage';
 
-export default OrdersPage;
+function AllOrdersRoutePage() {
+  return <OrdersPage />;
+}
+
+export default AllOrdersRoutePage;

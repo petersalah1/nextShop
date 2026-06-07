@@ -3,14 +3,15 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import toast from 'react-hot-toast';
 import { useAuth } from '@/contexts/AuthContext';
 import { useCartQuery } from '@/hooks/queries/useCart';
 import { useCreateCashOrder } from '@/hooks/mutations/useCreateCashOrder';
 import { useCreateCheckoutSession } from '@/hooks/mutations/useCreateCheckoutSession';
+import { getErrorMessage } from '@/lib/getErrorMessage';
 
 function CheckoutPage() {
   const router = useRouter();
-
   const { isAuthenticated, isAuthReady } = useAuth();
 
   const {
@@ -33,21 +34,26 @@ function CheckoutPage() {
     error: onlineError,
   } = useCreateCheckoutSession();
 
-  const isCreatingCashOrder = isCashPending || isCashLoading;
-  const isCreatingOnlinePayment = isOnlinePending || isOnlineLoading;
-  const isSubmitting = isCreatingCashOrder || isCreatingOnlinePayment;
-
-
   const [formData, setFormData] = useState({
     details: '',
     phone: '',
     city: '',
   });
 
+  const isCreatingCashOrder = isCashPending || isCashLoading;
+  const isCreatingOnlinePayment = isOnlinePending || isOnlineLoading;
+  const isSubmitting = isCreatingCashOrder || isCreatingOnlinePayment;
+
   const cartData = cartResponse?.data;
   const cartId = cartData?._id;
   const cartItems = cartData?.products || [];
   const cartTotal = cartData?.totalCartPrice || 0;
+
+  const error = cashError || onlineError;
+  const errorMessage = getErrorMessage(
+    error,
+    'Could not complete checkout. Please try again.'
+  );
 
   function handleChange(event) {
     const { name, value } = event.target;
@@ -60,19 +66,19 @@ function CheckoutPage() {
 
   function getShippingAddress() {
     return {
-      details: formData.details,
-      phone: formData.phone,
-      city: formData.city,
+      details: formData.details.trim(),
+      phone: formData.phone.trim(),
+      city: formData.city.trim(),
     };
   }
 
   function getOnlineShippingAddress() {
-  return {
-    details: formData.details.trim() || 'Online payment order',
-    phone: formData.phone.trim() || '01000000000',
-    city: formData.city.trim() || 'Cairo',
-  };
-}
+    return {
+      details: formData.details.trim() || 'Online payment order',
+      phone: formData.phone.trim() || '01000000000',
+      city: formData.city.trim() || 'Cairo',
+    };
+  }
 
   function handleCashOrder(event) {
     event.preventDefault();
@@ -94,52 +100,47 @@ function CheckoutPage() {
     );
   }
 
-function handleOnlinePayment() {
-  if (!cartId) {
-    return;
-  }
-
-  const paymentTab = window.open('', '_blank');
-
-  createOnlinePayment(
-    {
-      cartId,
-      shippingAddress: getOnlineShippingAddress(),
-      redirectUrl: `${window.location.origin}/allorders`,
-    },
-    {
-      onSuccess: (data) => {
-        const paymentUrl = data?.session?.url || data?.url;
-
-        if (paymentUrl && paymentTab) {
-          paymentTab.location.href = paymentUrl;
-          return;
-        }
-
-        if (paymentUrl && !paymentTab) {
-          window.location.href = paymentUrl;
-          return;
-        }
-
-        if (paymentTab) {
-          paymentTab.close();
-        }
-      },
-
-      onError: () => {
-        if (paymentTab) {
-          paymentTab.close();
-        }
-      },
+  function handleOnlinePayment() {
+    if (!cartId) {
+      return;
     }
-  );
-}
 
-  const error = cashError || onlineError;
+    const paymentTab = window.open('', '_blank');
 
-  const errorMessage =
-    error?.response?.data?.message ||
-    'Could not complete checkout. Please try again.';
+    createOnlinePayment(
+      {
+        cartId,
+        shippingAddress: getOnlineShippingAddress(),
+        redirectUrl: `${window.location.origin}/allorders`,
+      },
+      {
+        onSuccess: (data) => {
+          const paymentUrl = data?.session?.url || data?.url;
+
+          if (paymentUrl && paymentTab) {
+            paymentTab.location.href = paymentUrl;
+            return;
+          }
+
+          if (paymentUrl && !paymentTab) {
+            window.location.href = paymentUrl;
+            return;
+          }
+
+          if (paymentTab) {
+            paymentTab.close();
+          }
+
+          toast.error('Payment link was not returned. Please try again.');
+        },
+        onError: () => {
+          if (paymentTab) {
+            paymentTab.close();
+          }
+        },
+      }
+    );
+  }
 
   if (!isAuthReady) {
     return (

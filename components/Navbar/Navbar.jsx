@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useAuth } from '@/contexts/AuthContext';
 import { useCartQuery } from '@/hooks/queries/useCart';
+import { useWishlistQuery } from '@/hooks/queries/useWishlist';
 
 const navLinks = [
   { href: '/', label: 'Home' },
@@ -26,8 +27,14 @@ function Navbar() {
 
   const { user, isAuthenticated, logout } = useAuth();
   const { data: cartResponse } = useCartQuery();
+  const { data: wishlistResponse } = useWishlistQuery();
 
   const cartCount = isAuthenticated ? cartResponse?.numOfCartItems || 0 : 0;
+  const wishlistCount = isAuthenticated ? wishlistResponse?.data?.length || 0 : 0;
+
+  const userName = user?.name || 'Account';
+  const userFirstName = userName.split(' ')[0];
+  const userInitial = userName.charAt(0).toUpperCase();
 
   const isActive = (href) => {
     return pathname === href || (href !== '/' && pathname.startsWith(href));
@@ -39,6 +46,18 @@ function Navbar() {
     logout();
     closeMenu();
     router.push('/login');
+  }
+
+  function getActionCount(href) {
+    if (href === '/cart') {
+      return cartCount;
+    }
+
+    if (href === '/wishlist') {
+      return wishlistCount;
+    }
+
+    return 0;
   }
 
   return (
@@ -66,47 +85,53 @@ function Navbar() {
         </ul>
 
         <div className="hidden items-center gap-3 lg:flex">
-          <input
-            type="text"
-            placeholder="Search..."
-            className="w-44 rounded-full border border-gray-200 px-4 py-2 text-sm outline-none transition focus:border-blue-600 xl:w-60"
-          />
-
           <div className="flex items-center gap-3">
-            {actionLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className={`relative flex h-10 w-10 items-center justify-center rounded-full transition ${
-                  isActive(link.href)
-                    ? 'bg-(--primary) text-white'
-                    : 'bg-blue-50 text-(--primary) hover:bg-blue-100'
-                }`}
-                aria-label={link.label}
-              >
-                <i className={link.icon}></i>
+            {actionLinks.map((link) => {
+              const actionCount = getActionCount(link.href);
 
-                {link.href === '/cart' && cartCount > 0 && (
-                  <span className="absolute -right-1 -top-1 flex h-5 min-w-5 items-center justify-center rounded-full bg-(--primary) px-1 text-xs font-bold text-white">
-                    {cartCount}
-                  </span>
-                )}
-              </Link>
-            ))}
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={`relative flex h-10 w-10 items-center justify-center rounded-full transition ${
+                    isActive(link.href)
+                      ? 'bg-(--primary) text-white'
+                      : 'bg-blue-50 text-(--primary) hover:bg-blue-100'
+                  }`}
+                  aria-label={link.label}
+                >
+                  <i className={link.icon}></i>
+
+                  {actionCount > 0 && (
+                    <span className="absolute -right-1 -top-1 flex h-5 min-w-5 items-center justify-center rounded-full bg-(--primary) px-1 text-xs font-bold text-white">
+                      {actionCount}
+                    </span>
+                  )}
+                </Link>
+              );
+            })}
           </div>
 
           {isAuthenticated ? (
-            <div className="flex items-center gap-3">
-              <span className="max-w-32 truncate text-sm font-semibold text-gray-700">
-                {user?.name || 'Account'}
-              </span>
+            <div className="flex items-center gap-2 rounded-full border border-gray-200 bg-gray-50 py-1 pl-1 pr-2">
+              <div className="flex items-center gap-2 pr-1">
+                <span className="flex h-8 w-8 items-center justify-center rounded-full bg-(--primary) text-sm font-bold text-white">
+                  {userInitial}
+                </span>
+
+                <span className="max-w-24 truncate text-sm font-semibold text-gray-700">
+                  {userFirstName}
+                </span>
+              </div>
 
               <button
                 type="button"
                 onClick={handleLogout}
-                className="rounded-full border border-gray-200 px-5 py-2 text-sm font-medium text-gray-700 transition hover:border-red-200 hover:bg-red-50 hover:text-red-600"
+                className="flex h-8 w-8 items-center justify-center rounded-full text-gray-500 transition hover:bg-red-50 hover:text-red-600"
+                aria-label="Logout"
+                title="Logout"
               >
-                Logout
+                <i className="fa-solid fa-right-from-bracket"></i>
               </button>
             </div>
           ) : (
@@ -120,27 +145,31 @@ function Navbar() {
         </div>
 
         <div className="flex items-center gap-2 lg:hidden">
-          {actionLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              onClick={closeMenu}
-              className={`relative flex h-10 w-10 items-center justify-center rounded-full transition ${
-                isActive(link.href)
-                  ? 'bg-(--primary) text-white'
-                  : 'bg-blue-50 text-(--primary) hover:bg-blue-100'
-              }`}
-              aria-label={link.label}
-            >
-              <i className={link.icon}></i>
+          {actionLinks.map((link) => {
+            const actionCount = getActionCount(link.href);
 
-              {link.href === '/cart' && cartCount > 0 && (
-                <span className="absolute -right-1 -top-1 flex h-5 min-w-5 items-center justify-center rounded-full bg-(--primary) px-1 text-xs font-bold text-white">
-                  {cartCount}
-                </span>
-              )}
-            </Link>
-          ))}
+            return (
+              <Link
+                key={link.href}
+                href={link.href}
+                onClick={closeMenu}
+                className={`relative flex h-10 w-10 items-center justify-center rounded-full transition ${
+                  isActive(link.href)
+                    ? 'bg-(--primary) text-white'
+                    : 'bg-blue-50 text-(--primary) hover:bg-blue-100'
+                }`}
+                aria-label={link.label}
+              >
+                <i className={link.icon}></i>
+
+                {actionCount > 0 && (
+                  <span className="absolute -right-1 -top-1 flex h-5 min-w-5 items-center justify-center rounded-full bg-(--primary) px-1 text-xs font-bold text-white">
+                    {actionCount}
+                  </span>
+                )}
+              </Link>
+            );
+          })}
 
           <button
             type="button"
@@ -155,12 +184,6 @@ function Navbar() {
 
       {open && (
         <div className="border-t border-gray-100 bg-white px-4 py-5 shadow-md lg:hidden">
-          <input
-            type="text"
-            placeholder="Search..."
-            className="mb-5 w-full rounded-full border border-gray-200 px-4 py-2 text-sm outline-none transition focus:border-blue-600"
-          />
-
           <ul className="space-y-2 font-medium">
             {navLinks.map((link) => (
               <li key={link.href}>
@@ -182,9 +205,15 @@ function Navbar() {
           <div className="mt-5 border-t border-gray-100 pt-5">
             {isAuthenticated ? (
               <div className="space-y-3">
-                <p className="text-center text-sm font-semibold text-gray-700">
-                  {user?.name || 'Account'}
-                </p>
+                <div className="flex items-center justify-center gap-2 rounded-2xl bg-gray-50 px-4 py-3">
+                  <span className="flex h-9 w-9 items-center justify-center rounded-full bg-(--primary) text-sm font-bold text-white">
+                    {userInitial}
+                  </span>
+
+                  <span className="text-sm font-semibold text-gray-700">
+                    {userName}
+                  </span>
+                </div>
 
                 <button
                   type="button"

@@ -3,7 +3,7 @@ import Navbar from '@/components/Navbar/Navbar';
 import Footer from '@/components/Footer/Footer';
 import { Poppins } from 'next/font/google';
 import ReactQueryProvider from '@/providers/ReactQueryProvider';
-import { CartProvider } from '@/contexts/CartContext';
+import ToastProvider from '@/providers/ToastProvider';
 import { AuthProvider } from '@/contexts/AuthContext';
 
 const poppins = Poppins({
@@ -17,11 +17,10 @@ export default function RootLayout({ children }) {
       <body className="flex min-h-screen flex-col">
         <ReactQueryProvider>
           <AuthProvider>
-            <CartProvider>
-              <Navbar />
-              <main className="flex-1 pt-16">{children}</main>
-              <Footer />
-            </CartProvider>
+            <Navbar />
+            <main className="flex-1 pt-16">{children}</main>
+            <Footer />
+            <ToastProvider />
           </AuthProvider>
         </ReactQueryProvider>
       </body>
