@@ -6,7 +6,7 @@ NextShop provides a complete shopping experience including product browsing, cat
 
 ## Live Demo
 
-Coming soon.
+https://next-shop21.vercel.app
 
 ## Features
 
