@@ -1,47 +1,91 @@
+'use client';
 import Link from 'next/link';
 
 function Footer() {
   return (
-    <footer className="bg-gray-900 text-gray-300 pt-12 pb-6">
-      <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-6 gap-8">
+    <footer className="bg-gray-900 pt-12 pb-6 text-gray-300">
+      <div className="mx-auto grid max-w-7xl grid-cols-1 gap-8 px-4 sm:grid-cols-2 md:grid-cols-6">
+        {/* Logo & About */}
         <div className="col-span-1 md:col-span-2">
-          <Link href="/" className="flex items-center gap-2 mb-4">
-            <img src="/logo.png" alt="NextShop Logo" className="h-10 bg-white rounded-lg px-2" />
+          <Link href="/" className="mb-4 flex items-center gap-2">
+            <img
+              src="/logo.png"
+              alt="NextShop Logo"
+              className="h-10 rounded-lg bg-white px-2"
+            />
           </Link>
-          <p className="text-gray-400 mb-4">NextShop is your one-stop destination for quality products. From fashion to electronics, we bring you the best brands at competitive prices.</p>
+
+          <p className="mb-4 leading-7 text-gray-400">
+            NextShop is your one-stop destination for quality products. From
+            fashion to electronics, we bring you the best brands at competitive
+            prices.
+          </p>
+
           <div className="space-y-2 text-gray-400">
             <p className="flex items-center gap-2">
-              <i className="fas fa-phone-alt text-(--primary) w-5"></i>
-              01204995735
+              <i className="fa-brands fa-whatsapp w-5 text-lg text-(--primary)"></i>
+              <a
+                href="https://wa.me/201204995735"
+                target="_blank"
+                rel="noreferrer"
+              >
+                01204995735
+              </a>
             </p>
+
             <p className="flex items-center gap-2">
-              <i className="fas fa-envelope text-(--primary) w-5"></i>
-              support@nextshop.com
+              <i className="fas fa-envelope w-5 text-(--primary)"></i>
+              <a href="mailto:petersalah104@gmail.com">petersalah104@gmail.com</a>
             </p>
+
             <p className="flex items-center gap-2">
-              <i className="fas fa-map-marker-alt text-(--primary) w-5"></i>
-              123 Commerce Street, New York
+              <i className="fas fa-map-marker-alt w-5 text-(--primary)"></i>
+              Assiut, Egypt
             </p>
           </div>
-          <div className="flex gap-3 mt-4">
-            <a href="#" className="text-gray-400 hover:text-(--primary)">
+
+          <div className="mt-4 flex gap-3">
+            <a
+              href="https://github.com/petersalah1"
+              target="_blank"
+              rel="noreferrer"
+              className="text-gray-400 transition hover:text-(--primary)"
+            >
+              <i className="fab fa-github"></i>
+            </a>
+
+            <a
+              href="https://www.linkedin.com/in/petersalah/"
+              target="_blank"
+              rel="noreferrer"
+              className="text-gray-400 transition hover:text-(--primary)"
+            >
+              <i className="fab fa-linkedin"></i>
+            </a>
+
+            <a
+              href="https://www.facebook.com/peter.salah.311/"
+              target="_blank"
+              rel="noreferrer"
+              className="text-gray-400 transition hover:text-(--primary)"
+            >
               <i className="fab fa-facebook-f"></i>
             </a>
-            <a href="#" className="text-gray-400 hover:text-(--primary)">
-              <i className="fab fa-twitter"></i>
-            </a>
-            <a href="#" className="text-gray-400 hover:text-(--primary)">
+
+            <a
+              href="https://www.instagram.com/petersalah.2004/"
+              target="_blank"
+              rel="noreferrer"
+              className="text-gray-400 transition hover:text-(--primary)"
+            >
               <i className="fab fa-instagram"></i>
-            </a>
-            <a href="#" className="text-gray-400 hover:text-(--primary)">
-              <i className="fab fa-youtube"></i>
             </a>
           </div>
         </div>
 
-        {/* Columns */}
+        {/* Shop */}
         <div>
-          <h3 className="text-white font-semibold mb-3">Shop</h3>
+          <h3 className="mb-3 font-semibold text-white">Shop</h3>
           <ul className="space-y-2 text-gray-400">
             <li>
               <Link href="/products" className="hover:text-(--primary)">
@@ -58,35 +102,21 @@ function Footer() {
                 Brands
               </Link>
             </li>
-            <li>
-              <Link href="#" className="hover:text-(--primary)">
-                Electronics
-              </Link>
-            </li>
-            <li>
-              <Link href="#" className="hover:text-(--primary)">
-                Men's Fashion
-              </Link>
-            </li>
-            <li>
-              <Link href="#" className="hover:text-(--primary)">
-                Women's Fashion
-              </Link>
-            </li>
           </ul>
         </div>
 
+        {/* Account */}
         <div>
-          <h3 className="text-white font-semibold mb-3">Account</h3>
+          <h3 className="mb-3 font-semibold text-white">Account</h3>
           <ul className="space-y-2 text-gray-400">
             <li>
-              <Link href="#" className="hover:text-(--primary)">
-                My Account
+              <Link href="/login" className="hover:text-(--primary)">
+                Sign In
               </Link>
             </li>
             <li>
-              <Link href="#" className="hover:text-(--primary)">
-                Order History
+              <Link href="/register" className="hover:text-(--primary)">
+                Create Account
               </Link>
             </li>
             <li>
@@ -100,72 +130,59 @@ function Footer() {
               </Link>
             </li>
             <li>
-              <Link href="/login" className="hover:text-(--primary)">
-                Sign In
-              </Link>
-            </li>
-            <li>
-              <Link href="#" className="hover:text-(--primary)">
-                Create Account
+              <Link href="/allorders" className="hover:text-(--primary)">
+                Orders
               </Link>
             </li>
           </ul>
         </div>
 
+        {/* Support */}
         <div>
-          <h3 className="text-white font-semibold mb-3">Support</h3>
+          <h3 className="mb-3 font-semibold text-white">Support</h3>
           <ul className="space-y-2 text-gray-400">
             <li>
-              <Link href="#" className="hover:text-(--primary)">
+              <Link href="/contact" className="hover:text-(--primary)">
                 Contact Us
               </Link>
             </li>
             <li>
-              <Link href="#" className="hover:text-(--primary)">
+              <Link href="/help-center" className="hover:text-(--primary)">
                 Help Center
               </Link>
             </li>
             <li>
-              <Link href="#" className="hover:text-(--primary)">
+              <Link href="/shipping-info" className="hover:text-(--primary)">
                 Shipping Info
               </Link>
             </li>
             <li>
-              <Link href="#" className="hover:text-(--primary)">
+              <Link href="/returns-refunds" className="hover:text-(--primary)">
                 Returns & Refunds
-              </Link>
-            </li>
-            <li>
-              <Link href="#" className="hover:text-(--primary)">
-                Track Order
               </Link>
             </li>
           </ul>
         </div>
 
+        {/* Legal */}
         <div>
-          <h3 className="text-white font-semibold mb-3">Legal</h3>
+          <h3 className="mb-3 font-semibold text-white">Legal</h3>
           <ul className="space-y-2 text-gray-400">
             <li>
-              <Link href="#" className="hover:text-(--primary)">
+              <Link href="/privacy-policy" className="hover:text-(--primary)">
                 Privacy Policy
               </Link>
             </li>
             <li>
-              <Link href="#" className="hover:text-(--primary)">
+              <Link href="/terms-of-service" className="hover:text-(--primary)">
                 Terms of Service
-              </Link>
-            </li>
-            <li>
-              <Link href="#" className="hover:text-(--primary)">
-                Cookie Policy
               </Link>
             </li>
           </ul>
         </div>
       </div>
 
-      <div className="border-t border-gray-700 mt-8 pt-4 text-gray-400 text-sm flex flex-col sm:flex-row justify-between max-w-7xl mx-auto px-4">
+      <div className="mx-auto mt-8 flex max-w-7xl flex-col justify-between border-t border-gray-700 px-4 pt-4 text-sm text-gray-400 sm:flex-row">
         <p>© 2026 NextShop. All rights reserved.</p>
       </div>
     </footer>

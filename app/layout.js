@@ -6,6 +6,12 @@ import ReactQueryProvider from '@/providers/ReactQueryProvider';
 import ToastProvider from '@/providers/ToastProvider';
 import { AuthProvider } from '@/contexts/AuthContext';
 
+export const metadata = {
+  title: 'NextShop | Modern Ecommerce Store',
+  description:
+    'A modern ecommerce web application built with Next.js, React Query, Tailwind CSS, cart, wishlist, checkout, and online payment.',
+};
+
 const poppins = Poppins({
   subsets: ['latin'],
   weight: ['400', '500', '600', '700'],

@@ -1,36 +1,159 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# NextShop
 
-## Getting Started
+A modern ecommerce web application built with Next.js, React, Tailwind CSS, React Query, and Route Ecommerce API.
 
-First, run the development server:
+NextShop provides a complete shopping experience including product browsing, categories, brands, authentication, cart management, wishlist, cash checkout, online Stripe checkout, and order history.
+
+## Live Demo
+
+Coming soon.
+
+## Features
+
+* User authentication: register, login, and logout
+* Product listing with pagination and sorting
+* Product details page
+* Categories and category-based products
+* Brands and brand-based products
+* Add to cart
+* Update cart item quantity
+* Remove items from cart
+* Clear cart
+* Wishlist add/remove
+* Wishlist page
+* Cash order checkout
+* Online Stripe checkout
+* User orders page
+* Toast notifications for user feedback
+* Responsive design for desktop and mobile
+* Clean API layer using Axios
+* Server state management using React Query
+
+## Tech Stack
+
+* Next.js
+* React
+* Tailwind CSS
+* React Query
+* Axios
+* React Hot Toast
+* Font Awesome
+* Route Ecommerce API
+
+## Project Structure
+
+```txt
+app/
+  products/
+  categories/
+  brands/
+  cart/
+  wishlist/
+  checkout/
+  allorders/
+  (auth)/
+
+components/
+  Navbar/
+  ProductDetails/
+  Products/
+  Cart/
+  WishList/
+  shared/
+
+contexts/
+  AuthContext.jsx
+
+hooks/
+  queries/
+  mutations/
+
+services/
+  authService.js
+  productService.js
+  categoryService.js
+  brandService.js
+  cartService.js
+  wishlistService.js
+  orderService.js
+
+providers/
+  ReactQueryProvider.jsx
+  ToastProvider.jsx
+
+lib/
+  axios.js
+```
+
+## Main Pages
+
+* `/` — Home page
+* `/products` — All products
+* `/products/[id]` — Product details
+* `/categories` — Categories
+* `/categories/[id]` — Products by category
+* `/brands` — Brands
+* `/brands/[id]` — Products by brand
+* `/cart` — User cart
+* `/wishlist` — User wishlist
+* `/checkout` — Checkout page
+* `/allorders` — User orders
+* `/login` — Login page
+* `/register` — Register page
+
+## Installation
+
+Clone the repository:
+
+```bash
+git clone YOUR_REPOSITORY_URL
+```
+
+Install dependencies:
+
+```bash
+npm install
+```
+
+Run the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Build for production:
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+```bash
+npm run build
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## API
 
-## Learn More
+This project uses the Route Ecommerce API as the backend source for products, authentication, cart, wishlist, checkout, and orders.
 
-To learn more about Next.js, take a look at the following resources:
+## What I Learned
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+While building this project, I practiced:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+* Building a real ecommerce flow with Next.js
+* Managing server state with React Query
+* Organizing API requests inside service files
+* Handling authentication using context and local storage
+* Protecting user-specific pages
+* Working with cart, wishlist, checkout, and orders
+* Improving user experience with loading states and toast notifications
+* Building responsive UI with Tailwind CSS
 
-## Deploy on Vercel
+## Future Improvements
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+* Add search functionality
+* Add profile page
+* Add saved addresses
+* Add payment success and cancel pages
+* Improve form validation
+* Add skeleton loading components
+* Add unit tests for core logic
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Author
+
+Peter Salah

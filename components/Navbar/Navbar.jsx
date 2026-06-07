@@ -127,7 +127,7 @@ function Navbar() {
               <button
                 type="button"
                 onClick={handleLogout}
-                className="flex h-8 w-8 items-center justify-center rounded-full text-gray-500 transition hover:bg-red-50 hover:text-red-600"
+                className="flex h-8 w-8 items-center justify-center rounded-full text-gray-500 transition hover:bg-red-50 hover:text-red-600 hover:cursor-pointer"
                 aria-label="Logout"
                 title="Logout"
               >
