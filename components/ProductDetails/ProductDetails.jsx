@@ -106,6 +106,8 @@ function ProductDetails({ productId }) {
   }
 
   const productImages = product.images || [];
+  const hasDiscount =
+    product.priceAfterDiscount && product.priceAfterDiscount < product.price;
 
   return (
     <section className="bg-white py-16">
@@ -182,9 +184,25 @@ function ProductDetails({ productId }) {
             </div>
 
             <div className="mt-6">
-              <p className="text-3xl font-bold text-(--primary)">
-                {product.price} EGP
-              </p>
+              {hasDiscount ? (
+                <div className="flex flex-wrap items-end gap-3">
+                  <p className="text-3xl font-bold text-(--primary)">
+                    {product.priceAfterDiscount} EGP
+                  </p>
+
+                  <p className="pb-1 text-lg font-semibold text-gray-400 line-through">
+                    {product.price} EGP
+                  </p>
+
+                  <span className="rounded-full bg-red-50 px-3 py-1 text-xs font-bold text-red-500">
+                    Sale
+                  </span>
+                </div>
+              ) : (
+                <p className="text-3xl font-bold text-(--primary)">
+                  {product.price} EGP
+                </p>
+              )}
 
               {product.quantity > 0 ? (
                 <p className="mt-2 text-sm font-medium text-green-600">

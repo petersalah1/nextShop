@@ -81,7 +81,7 @@ function ProductCard({ product }) {
           type="button"
           onClick={handleWishlistClick}
           disabled={isWishlistLoading}
-          className={`absolute right-2 top-2 flex h-9 w-9 items-center justify-center rounded-full shadow-sm backdrop-blur transition disabled:cursor-not-allowed disabled:opacity-60 sm:right-3 sm:top-3 ${
+          className={`absolute right-2 top-2 flex h-9 w-9 items-center justify-center rounded-full shadow-sm backdrop-blur transition disabled:cursor-not-allowed disabled:opacity-60 sm:right-3 sm:top-3 cursor-pointer ${
             isWishlisted
               ? 'bg-(--primary) text-white'
               : 'bg-white/90 text-gray-700 hover:bg-(--primary) hover:text-white'

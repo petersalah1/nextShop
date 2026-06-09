@@ -111,7 +111,7 @@ function CheckoutPage() {
       {
         cartId,
         shippingAddress: getOnlineShippingAddress(),
-        redirectUrl: `${window.location.origin}/allorders`,
+        redirectUrl: window.location.origin,
       },
       {
         onSuccess: (data) => {

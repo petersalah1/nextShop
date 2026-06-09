@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
 import { useLogin } from '@/hooks/mutations/useLogin';
 import { useAuth } from '@/contexts/AuthContext';
@@ -51,16 +50,7 @@ function LoginPage() {
           user: data.user,
         });
 
-        toast.success('Logged in successfully');
         router.push('/products');
-      },
-
-      onError: (error) => {
-        const message =
-          error?.response?.data?.message ||
-          'Login failed. Please try again.';
-
-        toast.error(message);
       },
     });
   }

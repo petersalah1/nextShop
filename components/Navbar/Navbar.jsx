@@ -183,7 +183,16 @@ function Navbar() {
       </div>
 
       {open && (
-        <div className="border-t border-gray-100 bg-white px-4 py-5 shadow-md lg:hidden">
+        <button
+          type="button"
+          aria-label="Close menu"
+          onClick={closeMenu}
+          className="fixed inset-0 top-16 z-40 bg-black/20 lg:hidden"
+        />
+      )}
+
+      {open && (
+        <div className="relative z-50 border-t border-gray-100 bg-white px-4 py-5 shadow-md lg:hidden">
           <ul className="space-y-2 font-medium">
             {navLinks.map((link) => (
               <li key={link.href}>
